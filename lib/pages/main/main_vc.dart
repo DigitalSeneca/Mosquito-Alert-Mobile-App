@@ -15,6 +15,7 @@ import 'package:mosquito_alert_app/pages/info_pages/info_page.dart';
 import 'package:mosquito_alert_app/pages/main/components/custom_card_widget.dart';
 import 'package:mosquito_alert_app/pages/my_reports_pages/my_reports_page.dart';
 import 'package:mosquito_alert_app/pages/notification_pages/notifications_page.dart';
+import 'package:mosquito_alert_app/pages/public_map.dart';
 import 'package:mosquito_alert_app/pages/settings_pages/campaign_tutorial_page.dart';
 import 'package:mosquito_alert_app/pages/settings_pages/settings_page.dart';
 import 'package:mosquito_alert_app/utils/MyLocalizations.dart';
@@ -216,7 +217,11 @@ class _MainVCState extends State<MainVC> {
                     title: const Text('Public map'),
                     leading: Icon(Icons.map),
                     onTap: () {
-                      // TODO: Public map
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PublicMap()),
+                      );
                     },
                   ),
                   ListTile(
