@@ -24,6 +24,7 @@ class _PublicMapState extends State<PublicMap> {
           onPageStarted: (String url) {
           },
           onPageFinished: (String url) {
+            loadingStream.add(false);
           },
           onWebResourceError: (WebResourceError error) {
             print(error);
@@ -31,7 +32,7 @@ class _PublicMapState extends State<PublicMap> {
         ),
       );
 
-      _controller.loadRequest(Uri.parse('https://map.mosquitoalert.com/en'));
+      _controller.loadRequest(Uri.parse('https://map.mosquitoalert.com'));
   }
 
   @override
@@ -39,32 +40,34 @@ class _PublicMapState extends State<PublicMap> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Mosquito Alert Map'),
+        backgroundColor: Colors.white,
       ),
-          body: SafeArea(
-            child: Stack(
-              children: [
-                Builder(builder: (BuildContext context) {
-                  return WebViewWidget(
-                    controller: _controller,
-                  );
-                }),
-                StreamBuilder<bool>(
-                    stream: loadingStream.stream,
-                    initialData: true,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<bool> snapLoading) {
-                      if (snapLoading.data == true) {
-                        return Container(
-                          child: Center(
-                            child: Utils.loading(true),
-                          ),
-                        );
-                      }
-                      return Container();
-                    }),
-              ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Builder(builder: (BuildContext context) {
+              return WebViewWidget(
+                controller: _controller,
+              );
+            }),
+            StreamBuilder<bool>(
+              stream: loadingStream.stream,
+              initialData: true,
+              builder: (BuildContext context, AsyncSnapshot<bool> snapLoading) {
+                if (snapLoading.data != true) {
+                  return Container();
+                }
+
+                return Container(
+                  child: Center(
+                    child: Utils.loading(true),
+                  ),
+                );
+              }
             ),
-          ),
+          ],
+        ),
+      ),
     );
   }
 }
